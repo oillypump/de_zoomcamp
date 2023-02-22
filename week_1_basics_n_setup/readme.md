@@ -74,7 +74,10 @@ For the course you'll need:
 If you have problems setting up the env, you can check this video:
 
 - [Setting up the environment on cloud VM](https://www.youtube.com/watch?v=ae-CV2KfoN0&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)
-  - Generating SSH keys
+  - Generating SSH keys on local laptop
+  ```
+  $ ssh keygen -t rsa -f ~/.ssh/gcp -C ryano -b 2048
+  ```
   - Creating a virtual machine on GCP
   - Connecting to the VM with SSH
   - Installing Anaconda
