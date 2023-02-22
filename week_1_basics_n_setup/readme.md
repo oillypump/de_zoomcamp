@@ -74,10 +74,13 @@ For the course you'll need:
 If you have problems setting up the env, you can check this video:
 
 - [Setting up the environment on cloud VM](https://www.youtube.com/watch?v=ae-CV2KfoN0&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)
+
   - Generating SSH keys on local laptop
+
   ```
   $ ssh keygen -t rsa -f ~/.ssh/gcp -C ryano -b 2048
   ```
+
   - Creating a virtual machine on GCP
   - Connecting to the VM with SSH
   - Installing Anaconda
@@ -85,6 +88,23 @@ If you have problems setting up the env, you can check this video:
   - Creating SSH `config` file
   - Accessing the remote machine with VS Code and SSH remote
   - Installing docker-compose
+
+  ```
+  $ cd ~
+  $ mkdir bin
+  $ cd bin
+  $ wget https://github.com/docker/compose/releases/download/v2.16.0/docker-compose-linux-x86_64 -O docker-compose
+  $ chmod +x docker-compose
+  $ ./docker-compose version
+  $ nano .bashrc
+  ```
+
+  add line below :
+
+  ```
+    export PATH="${HOME}/bin:${PATH}"
+  ```
+
   - Installing pgcli
   - Port-forwarding with VS code: connecting to pgAdmin and Jupyter from the local computer
   - Installing Terraform

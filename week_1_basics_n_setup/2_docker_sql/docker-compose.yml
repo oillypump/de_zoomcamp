@@ -2,7 +2,7 @@ services:
   pgdatabase:
     image: postgres:13
     environment:
-      - POSTGRES_PASSWORD:root
+      - POSTGRES_PASSWORD=root
       - POSTGRES_USER=root
       - POSTGRES_DB=ny_taxi
       - TZ=Asia/Jakarta
