@@ -11,3 +11,4 @@ week_1_basics_n_setup/1_terraform/
 week_2_workflow_orchestration/virt_env
 */*/*/__pycache__
 .venv
+.env
