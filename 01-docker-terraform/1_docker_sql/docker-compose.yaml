@@ -18,17 +18,5 @@ services:
     ports:
       - "5432:5432"
 
-  pgadmin:
-    image: elestio/pgadmin:latest
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-      PGADMIN_LISTEN_PORT: ${PG_ADMIN_PORT}
-    volumes:
-      - data_pgadmin:/var/lib/pgadmin
-    ports:
-      - "8081:8081"
-
 volumes:
   postgres-de-zoomcamp-volume:
-  data_pgadmin:
