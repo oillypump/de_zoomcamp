@@ -1,0 +1,32 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: postgres-${POSTGRES_DB}
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      TZ: ${TZ}
+      PGTZ: ${PGTZ}
+    volumes:
+      - postgres-dateng26:/var/lib/postgresql
+    healthcheck:
+      test:
+        ["CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    networks:
+      - dateng26
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres-dateng26:
+    name: postgres-dateng26
+
+networks:
+  dateng26:
+    name: dateng26
+    driver: bridge
