@@ -6,12 +6,25 @@ Run docker with the `python:3.13` image. Use an entrypoint `bash` to interact wi
 
 What's the version of `pip` in the image?
 
-- **25.3**
+- **25.3** ✅
 - 24.3.1
 - 24.2.1
 - 23.3.1
 
-![1](./pics/1.png)
+### Answer screenshot:
+
+![A1](./pics/A1.png)
+
+### command used:
+
+```bash
+  docker run -it \
+    --rm \
+    --entrypoint=bash \
+    python:3.13
+
+  pip --version
+```
 
 ## Question 2. Understanding Docker networking and docker-compose
 
@@ -49,26 +62,16 @@ volumes:
     name: vol-pgadmin_data
 ```
 
-- **postgres:5433**
+- **postgres:5433** ✅
 - localhost:5432
-- db:5433
+- **db:5433** ✅
 - postgres:5432
 - db:5432
 
-If multiple answers are correct, select any
+### answer:
 
-## Prepare the Data
-
-Download the green taxi trips data for November 2025:
-
-```bash
-wget https://d37ci6vzurychx.cloudfront.net/trip-data/green_tripdata_2025-11.parquet
 ```
-
-You will also need the dataset with zones:
-
-```bash
-wget https://github.com/DataTalksClub/nyc-tlc-data/releases/download/misc/taxi_zone_lookup.csv
+The hostname is `postgres` or `db` and the port is `5433`. its clearly defined in the ports section of the docker-compose file.
 ```
 
 ## Question 3. Counting short trips
@@ -76,7 +79,7 @@ wget https://github.com/DataTalksClub/nyc-tlc-data/releases/download/misc/taxi_z
 For the trips in November 2025 (lpep_pickup_datetime between '2025-11-01' and '2025-12-01', exclusive of the upper bound), how many trips had a `trip_distance` of less than or equal to 1 mile?
 
 - 7,853
-- **8,007**
+- **8,007** ✅
 - 8,254
 - 8,421
 
@@ -86,7 +89,7 @@ Which was the pick up day with the longest trip distance? Only consider trips wi
 
 Use the pick up time for your calculations.
 
-- **2025-11-14**
+- **2025-11-14** ✅
 - 2025-11-20
 - 2025-11-23
 - 2025-11-25
@@ -95,7 +98,7 @@ Use the pick up time for your calculations.
 
 Which was the pickup zone with the largest `total_amount` (sum of all trips) on November 18th, 2025?
 
-- **East Harlem North**
+- **East Harlem North** ✅
 - East Harlem South
 - Morningside Heights
 - Forest Hills
@@ -107,7 +110,7 @@ For the passengers picked up in the zone named "East Harlem North" in November 2
 Note: it's `tip` , not `trip`. We need the name of the zone, not the ID.
 
 - JFK Airport
-- **Yorkville West**
+- **Yorkville West** ✅
 - East Harlem North
 - LaGuardia Airport
 
@@ -134,59 +137,5 @@ Answers:
 - terraform import, terraform apply -y, terraform destroy
 - teraform init, terraform plan -auto-apply, terraform rm
 - terraform init, terraform run -auto-approve, terraform destroy
-- **terraform init, terraform apply -auto-approve, terraform destroy**
+- **terraform init, terraform apply -auto-approve, terraform destroy** ✅
 - terraform import, terraform apply -y, terraform rm
-
-## Submitting the solutions
-
-- Form for submitting: https://courses.datatalks.club/de-zoomcamp-2026/homework/hw1
-
-## Learning in Public
-
-We encourage everyone to share what they learned. This is called "learning in public".
-
-### Why learn in public?
-
-- Accountability: Sharing your progress creates commitment and motivation to continue
-- Feedback: The community can provide valuable suggestions and corrections
-- Networking: You'll connect with like-minded people and potential collaborators
-- Documentation: Your posts become a learning journal you can reference later
-- Opportunities: Employers and clients often discover talent through public learning
-
-You can read more about the benefits [here](https://alexeyondata.substack.com/p/benefits-of-learning-in-public-and).
-
-Don't worry about being perfect. Everyone starts somewhere, and people love following genuine learning journeys!
-
-### Example post for LinkedIn
-
-```
-🚀 Week 1 of Data Engineering Zoomcamp by @DataTalksClub complete!
-
-Just finished Module 1 - Docker & Terraform. Learned how to:
-
-✅ Containerize applications with Docker and Docker Compose
-✅ Set up PostgreSQL databases and write SQL queries
-✅ Build data pipelines to ingest NYC taxi data
-✅ Provision cloud infrastructure with Terraform
-
-Here's my homework solution: <LINK>
-
-Following along with this amazing free course - who else is learning data engineering?
-
-You can sign up here: https://github.com/DataTalksClub/data-engineering-zoomcamp/
-```
-
-### Example post for Twitter/X
-
-```
-🐳 Module 1 of Data Engineering Zoomcamp done!
-
-- Docker containers
-- Postgres & SQL
-- Terraform & GCP
-- NYC taxi data pipeline
-
-My solution: <LINK>
-
-Free course by @DataTalksClub: https://github.com/DataTalksClub/data-engineering-zoomcamp/
-```
