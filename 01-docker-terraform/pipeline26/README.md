@@ -27,4 +27,24 @@ docker run -it --rm --network=dateng26 taxi_ingest:v001 \
   --month=1 \
   --chunksize=100000
 
+docker run -it --rm --network=dateng26 ingest_data:v01 \
+  --target-table=yellow_taxi_trips_2021_docker \
+  --pg-host=postgres-dateng \
+  --year=2021 \
+  --month=1 \
+  --chunksize=100000
+
+
+
 ```
+
+docker run -it --rm --network=dateng26 ingest_data:v01 \
+ --target-table=yellow_taxi_trips_2021_docker_1 \
+ --year=2021 \
+ --month=1 \
+ --chunksize=100000
+
+docker run -it \
+ --rm \
+ --entrypoint=bash \
+ python:3.13
