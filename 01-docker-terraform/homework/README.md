@@ -83,6 +83,20 @@ For the trips in November 2025 (lpep_pickup_datetime between '2025-11-01' and '2
 - 8,254
 - 8,421
 
+### answer screenshot:
+
+![A3](./pics/A3.png)
+
+### SQL query used:
+
+    ```sql
+      SELECT count(1)
+      FROM green_taxi_data
+      WHERE lpep_pickup_datetime >= '2025-11-01'
+        AND lpep_pickup_datetime < '2025-12-01'
+        AND trip_distance <= 1;
+    ```
+
 ## Question 4. Longest trip for each day
 
 Which was the pick up day with the longest trip distance? Only consider trips with `trip_distance` less than 100 miles (to exclude data errors).
@@ -94,6 +108,27 @@ Use the pick up time for your calculations.
 - 2025-11-23
 - 2025-11-25
 
+#### answer screenshot:
+
+![A4](./pics/A4.png)
+
+#### SQL query used:
+
+```sql
+SELECT
+    CAST(lpep_pickup_datetime AS DATE) AS pickup_day,
+    MAX(trip_distance) AS max_distance
+FROM
+    green_taxi_data
+WHERE
+    trip_distance < 100
+GROUP BY
+    pickup_day
+ORDER BY
+    max_distance DESC
+LIMIT 1000;
+```
+
 ## Question 5. Biggest pickup zone
 
 Which was the pickup zone with the largest `total_amount` (sum of all trips) on November 18th, 2025?
@@ -102,6 +137,29 @@ Which was the pickup zone with the largest `total_amount` (sum of all trips) on 
 - East Harlem South
 - Morningside Heights
 - Forest Hills
+
+#### answer screenshot:
+
+![A5](./pics/A5.png)
+
+#### SQL query used:
+
+```sql
+SELECT
+    z."Zone",
+    SUM(t."total_amount") AS total_sum
+FROM
+    green_taxi_data t
+JOIN
+    taxi_zone_lookup z ON t."PULocationID" = z."LocationID"
+WHERE
+    CAST(t.lpep_pickup_datetime AS DATE) = '2025-11-18'
+GROUP BY
+    z."Zone"
+ORDER BY
+    total_sum DESC
+LIMIT 1;
+```
 
 ## Question 6. Largest tip
 
@@ -114,15 +172,30 @@ Note: it's `tip` , not `trip`. We need the name of the zone, not the ID.
 - East Harlem North
 - LaGuardia Airport
 
-## Terraform
+#### answer screenshot:
 
-In this section homework we'll prepare the environment by creating resources in GCP with Terraform.
+![A5](./pics/A5.png)
 
-In your VM on GCP/Laptop/GitHub Codespace install Terraform.
-Copy the files from the course repo
-[here](../../../01-docker-terraform/terraform/terraform) to your VM/Laptop/GitHub Codespace.
+#### SQL query used:
 
-Modify the files as necessary to create a GCP Bucket and Big Query Dataset.
+```sql
+SELECT
+    zdo."Zone" AS dropoff_zone,
+    t.tip_amount
+FROM
+    green_taxi_data t
+JOIN
+    taxi_zone_lookup zpu ON t."PULocationID" = zpu."LocationID"
+JOIN
+    taxi_zone_lookup zdo ON t."DOLocationID" = zdo."LocationID"
+WHERE
+    zpu."Zone" = 'East Harlem North'
+    AND t.lpep_pickup_datetime >= '2025-11-01'
+    AND t.lpep_pickup_datetime < '2025-12-01'
+ORDER BY
+    t.tip_amount DESC
+LIMIT 1;
+```
 
 ## Question 7. Terraform Workflow
 
