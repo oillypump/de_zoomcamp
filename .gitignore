@@ -1,6 +1,7 @@
 # **google_credentials.json
 **logs/
 **.env
+**.venv
 **__pycache__/
 .history
 .ipynb_checkpoints/
