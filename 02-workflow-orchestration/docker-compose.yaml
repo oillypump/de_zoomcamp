@@ -23,7 +23,7 @@ x-airflow-common: &airflow-common
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
   user: "${AIRFLOW_UID:-50000}:0"
   networks:
-    - airflow-network
+    - dateng-network
   depends_on: &airflow-common-depends-on
     postgres:
       condition: service_healthy
@@ -31,12 +31,13 @@ x-airflow-common: &airflow-common
 services:
   postgres:
     image: postgres:16
+    container_name: postgres
     environment:
       POSTGRES_USER: airflow
       POSTGRES_PASSWORD: airflow
       POSTGRES_DB: airflow
     volumes:
-      - postgres-db-volume:/var/lib/postgresql/data
+      - postgres-airflow-volume:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "airflow"]
       interval: 10s
@@ -44,11 +45,12 @@ services:
       start_period: 5s
     restart: always
     networks:
-      - airflow-network
+      - dateng-network
 
   airflow-apiserver:
     <<: *airflow-common
     command: api-server
+    container_name: airflow-apiserver
     ports:
       - "8080:8080"
     healthcheck:
@@ -66,6 +68,7 @@ services:
   airflow-scheduler:
     <<: *airflow-common
     command: scheduler
+    container_name: airflow-scheduler
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost:8974/health"]
       interval: 30s
@@ -81,6 +84,7 @@ services:
   airflow-dag-processor:
     <<: *airflow-common
     command: dag-processor
+    container_name: airflow-dag-processor
     healthcheck:
       test:
         [
@@ -100,6 +104,7 @@ services:
   airflow-triggerer:
     <<: *airflow-common
     command: triggerer
+    container_name: airflow-triggerer
     healthcheck:
       test:
         [
@@ -207,10 +212,38 @@ services:
       _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD:-airflow}
       _PIP_ADDITIONAL_REQUIREMENTS: ""
     user: "0:0"
+    container_name: airflow-init
+
+  postgres-dateng:
+    image: postgres:18
+    container_name: postgres-dateng
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      TZ: ${TZ}
+      PGTZ: ${PGTZ}
+    volumes:
+      - postgres-dateng-volume:/var/lib/postgresql
+    healthcheck:
+      test:
+        ["CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    networks:
+      - dateng-network
+    ports:
+      - "5432:5432"
 
 volumes:
-  postgres-db-volume:
+  postgres-airflow-volume:
+    name: postgres-airflow-volume
+  postgres-dateng-volume:
+    name: postgres-dateng-volume
 
 networks:
-  airflow-network:
+  dateng-network:
     driver: bridge
+    name: dateng-network
