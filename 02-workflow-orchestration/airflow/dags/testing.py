@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 @dag(
-    dag_id="testing_v3",
+    dag_id="testing",
     tags=["test"],
     description="DAG Hello World menggunakan Decorators",
     catchup=False,
