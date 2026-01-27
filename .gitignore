@@ -7,4 +7,5 @@
 .ipynb_checkpoints/
 *.parquet
 *.csv
+**.csv.gz
 airflow.cfg
